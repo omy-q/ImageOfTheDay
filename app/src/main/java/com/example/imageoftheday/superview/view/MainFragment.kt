@@ -1,5 +1,7 @@
 package com.example.imageoftheday.superview.view
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -42,6 +44,22 @@ class MainFragment : Fragment() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initOptions()
+    }
+
+    private fun initOptions() {
+        binding.inputLayout.setEndIconOnClickListener{
+            val intent = Intent().apply {
+                action = Intent.ACTION_VIEW
+                data = Uri.parse("https://en.wikipedia.org/wiki/" +
+                        "${binding.inputEditText.text.toString()}")
+            }
+            startActivity(intent)
+        }
+    }
+
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
@@ -61,4 +79,3 @@ class MainFragment : Fragment() {
         }
     }
 }
-
