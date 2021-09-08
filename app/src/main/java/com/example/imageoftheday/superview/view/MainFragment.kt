@@ -58,6 +58,10 @@ class MainFragment : Fragment() {
             R.id.app_bar_settings -> {
                 Toast.makeText(context, "Settings", Toast.LENGTH_SHORT).show()
             }
+            android.R.id.home -> {
+                BottomNavigationDrawerFragment.newInstance()
+                    .show(requireActivity().supportFragmentManager, "")
+            }
         }
         return super.onOptionsItemSelected(item)
     }
