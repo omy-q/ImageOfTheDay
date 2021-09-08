@@ -7,20 +7,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.example.imageoftheday.R
 import com.example.imageoftheday.databinding.MainFragmentBinding
 import com.example.imageoftheday.superview.viewmodel.AppState
 import com.example.imageoftheday.superview.viewmodel.MainViewModel
-import java.util.*
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class MainFragment : Fragment() {
     private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: MainViewModel by lazy { ViewModelProvider(this).get(MainViewModel::class.java) }
+    private val viewModel: MainViewModel by
+        lazy{ ViewModelProvider(this).get(MainViewModel::class.java) }
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     companion object {
         fun newInstance() = MainFragment()
@@ -47,6 +49,12 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initOptions()
+        initBottomSheet(binding.includeLayout.bottomSheetContainer)
+    }
+
+    private fun initBottomSheet(bottomSheet: ConstraintLayout) {
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
     private fun initOptions() {
