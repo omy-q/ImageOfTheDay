@@ -21,7 +21,7 @@ class MainFragment : Fragment() {
     private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MainViewModel by
-        lazy{ ViewModelProvider(this).get(MainViewModel::class.java) }
+    lazy { ViewModelProvider(this).get(MainViewModel::class.java) }
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     companion object {
@@ -54,12 +54,17 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.app_bar_fav -> {
                 Toast.makeText(context, "Favorite", Toast.LENGTH_SHORT).show()
             }
             R.id.app_bar_settings -> {
                 Toast.makeText(context, "Settings", Toast.LENGTH_SHORT).show()
+                requireActivity().supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.container, ChipsFragment.newInstance())
+                    .addToBackStack("")
+                    .commit()
             }
             android.R.id.home -> {
                 BottomNavigationDrawerFragment.newInstance()
@@ -79,7 +84,7 @@ class MainFragment : Fragment() {
     private fun setBottomAppBar() {
         (context as MainActivity).setSupportActionBar(binding.bottomAppBar)
         setHasOptionsMenu(true)
-        binding.fab.setOnClickListener{
+        binding.fab.setOnClickListener {
             if (isMain) {
                 isMain = false
                 binding.bottomAppBar.navigationIcon = null
@@ -95,7 +100,8 @@ class MainFragment : Fragment() {
                 isMain = true
                 binding.bottomAppBar.navigationIcon = ContextCompat.getDrawable(
                     requireContext(),
-                    R.drawable.ic_hamburger_menu_bottom_bar)
+                    R.drawable.ic_hamburger_menu_bottom_bar
+                )
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
                 binding.fab.setImageDrawable(
                     ContextCompat.getDrawable(
@@ -114,11 +120,13 @@ class MainFragment : Fragment() {
     }
 
     private fun initOptions() {
-        binding.inputLayout.setEndIconOnClickListener{
+        binding.inputLayout.setEndIconOnClickListener {
             val intent = Intent().apply {
                 action = Intent.ACTION_VIEW
-                data = Uri.parse("https://en.wikipedia.org/wiki/" +
-                        "${binding.inputEditText.text.toString()}")
+                data = Uri.parse(
+                    "https://en.wikipedia.org/wiki/" +
+                            "${binding.inputEditText.text.toString()}"
+                )
             }
             startActivity(intent)
         }
